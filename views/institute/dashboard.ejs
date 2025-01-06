@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0">
+        <title>Institute Dashboard</title>
+
+        <link href="/assets/css/style.css" rel="stylesheet">
+        <!-- MDBootstrap CSS -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css"
+            rel="stylesheet" />
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+        <!-- Slick CSS -->
+        <link rel="stylesheet" type="text/css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+        <link rel="stylesheet" type="text/css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
+        <!-- FontAwesome CDN link -->
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    </head>
+    <body>
+        <main>
+            <!-- Header -->
+            <header class="container-fluid" id="header">
+                <!-- Hamburger icon for mobile -->
+                <div class="mobile-menu-toggle" id="mobile-menu-toggle">
+                    <div class="hamburger-icon"></div>
+                </div>
+
+                <div class="header-logo">
+                    <a href="/home"><img src="/assets/images/weInternLogo.png" alt="weinterns logo"></a>
+                </div>                <nav>
+                    <div class="nav-links">
+                        <a href="#">Institute Dashboard</a>
+                    </div>
+                    <div class="nav-buttons">
+                        <li>
+                            <a href="#">Hire Interns </a>
+                        </li>
+                        <li>
+                            <a href="#">Hire Freshers </a>
+                        </li>
+                        <li><a
+                                href="logout?from=dashboard">Logout</a></li>
+                    </div>
+                </nav>
+            </header>
+
+            <!-- Background overlay -->
+            <div class="overlay" id="overlay"></div>
+
+            <!-- Mobile menu -->
+            <nav class="nav-bar">
+                <div class="mobile-menu" id="mobile-menu">
+                    <li>
+                        <a href="#">Hire Interns </a>
+                    </li>
+                    <li>
+                        <a href="#">Hire Freshers </a>
+                    </li>
+                    <li><a href="logout?from=dashboard">Logout</a></li>
+                </div>
+            </nav>
+
+            <div class="errorMessage">
+                <!-- Display success message if it exists -->
+                <% if (messages && messages.success) { %>
+                <div class="alert alert-success"><%= messages.success
+                    %></div>
+                <% } %>
+
+                <!-- Display error message if it exists -->
+                <% if (messages && messages.error) { %>
+                <div class="alert alert-danger"><%= messages.error
+                    %></div>
+                <% } %>
+            </div>
+
+            <!-- Hero Section -->
+            <dv class="featured">
+                <div class="container main-header">
+                    <h2>Welcome <%= institute.name %> !</h2>
+                </div>
+            </dv>
+
+            <div class="hero-div separator-animated animated-true"></div>
+
+            <div class="container">
+                <div class="row py-5">
+                    <div class="col-sm-6 col-md-4 col-lg-4">
+                        <div class="card p-3" style="width: 15rem;">
+                            <div class="card-body">
+                                <h6
+                                    class="card-subtitle mb-2 text-muted"><span
+                                        id="count1">0</span>
+                                    &nbsp;&nbsp;&nbsp; Students
+                                    Visited </h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-4">
+                        <div class="card p-3" style="width: 15rem;">
+                            <div class="card-body">
+                                <h6
+                                    class="card-subtitle mb-2 text-muted"><span
+                                        id="count2">0</span>
+                                    &nbsp;&nbsp;&nbsp; Students
+                                    Enrolled </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer mt-auto">
+            <div class="container">
+                <div class="footer-bottom">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <p>&copy; 2025 WeInterns. All Rights
+                                Reserved.</p>
+                        </div>
+                        <div class="col-md-6 col-sm-6 footer-end">
+                            <a href="#" class="social-icon"><i
+                                    class="fab fa-facebook-f"></i></a>
+                            <a
+                                href="https://whatsapp.com/channel/0029Vb20IKq0QeaiTRGefP2u"
+                                target="_blank"
+                                class="social-icon"><i
+                                    class="fab fa-whatsapp"></i></a>
+                            <a
+                                href="https://www.linkedin.com/company/weinternx/"
+                                target="_blank"
+                                class="social-icon"><i
+                                    class="fab fa-linkedin-in"></i></a>
+                            <a
+                                href="https://www.instagram.com/weinternx/"
+                                target="_blank"
+                                class="social-icon"><i
+                                    class="fab fa-instagram"></i></a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- MDBootstrap JavaScript -->
+        <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js"></script>
+
+        <!-- jQuery (necessary for slick) -->
+        <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- Slick JS -->
+        <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+        <script type="text/javascript"
+            src="/assets/js/main.js"></script>
+
+        <script>
+            // Target numbers
+        const targetCount1 = 50;
+        const targetCount2 = 20;
+    
+        // Speed of the increment animation (in milliseconds)
+        const speed = 100;
+    
+        // Generic function to increment any counter
+        function incrementCount(elementId, target) {
+            const countElement = document.getElementById(elementId);
+            let currentCount = parseInt(countElement.innerText); // Get current displayed count
+    
+            if (currentCount < target) {
+                countElement.innerText = currentCount + 1; // Increment the count
+                setTimeout(() => incrementCount(elementId, target), speed); // Call again after a delay
+            }
+        }
+    
+        // Start the increment animations for both counters
+        incrementCount("count1", targetCount1);
+        incrementCount("count2", targetCount2);
+        </script>
+    </body>
+</html>

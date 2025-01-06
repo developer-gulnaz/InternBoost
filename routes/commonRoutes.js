@@ -1,0 +1,14 @@
+const express = require('express');
+const path = require('path');
+const router = express.Router();
+
+router.get('/home', (req, res) => {
+    res.render('home');
+});
+
+router.get('/', (req, res) => {
+    res.render('home'); // Ensure this matches your views folder structure
+});
+
+
+module.exports = router;

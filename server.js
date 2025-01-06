@@ -1,0 +1,105 @@
+const express = require('express');
+const mongoose = require('mongoose');
+const path = require('path');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const studentRoutes = require('./routes/studentRoutes');
+const instituteRoutes = require('./routes/instituteRoutes');
+const commonRoutes = require('./routes/commonRoutes');
+const flash = require('connect-flash');
+
+const app = express();
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// Middleware for parsing form data
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash());
+
+// Session configuration
+app.use(
+  session({
+      secret: 'your_secret_key', // Replace with your secret key
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+          maxAge: 900000, // 15 minutes in milliseconds
+          httpOnly: true, // Prevent client-side scripts from accessing cookies
+          secure: false,  // Set to true if using HTTPS
+      },
+  })
+);
+
+//Middleware to Pass Session Data Globally
+
+app.use((req, res, next) => {
+  res.locals.instituteName = req.session?.instituteName || null;
+  res.locals.studentName = req.session?.studentName || null;
+  res.locals.internshipTitle = req.session?.internshipTitle || null;
+  res.locals.appliedInternships = req.session?.appliedInternships || null;
+  res.locals.appliedCourses = req.session?.appliedCourses || null;
+  res.locals.message = req.session?.message || null;
+  next();
+});
+
+app.use((req, res, next) => {
+  res.locals.messages = req.flash();
+  next();
+});
+
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost:27017/we-interns', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.log(err));
+
+// Use the student routes
+app.use('/', commonRoutes);
+app.use('/student', studentRoutes);
+app.use('/institute', instituteRoutes);
+
+// app.use((req, res, next) => {
+//   console.log(`${req.method} request to ${req.url}`);
+//   next();
+// });
+
+app.use((req, res, next) => {
+  if (req.session) {
+      const now = Date.now();
+      const maxInactive = 15 * 60 * 1000; // 15 minutes in milliseconds
+
+      // Initialize lastActivity if not set
+      if (!req.session.lastActivity) {
+          req.session.lastActivity = now;
+      }
+
+      // Check if session has expired
+      if (now - req.session.lastActivity > maxInactive) {
+          req.session.destroy((err) => {
+              if (err) {
+                  console.error(err);
+              }
+              return res.redirect('/home'); // Redirect to login page
+          });
+      } else {
+          // Update lastActivity on every request
+          req.session.lastActivity = now;
+      }
+  }
+  next();
+});
+
+
+// Catch-all for undefined routes
+app.use((req, res) => {
+  req.flash('error', 'The page you are looking for does not exist.');
+  res.redirect('/');
+});
+
+
+// Start the server
+app.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
+});

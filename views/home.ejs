@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>WeInterns || Home</title>
+
+        <link href="/assets/css/style.css" rel="stylesheet">
+        <!-- MDBootstrap CSS -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css"
+            rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+        <!-- Slick CSS -->
+        <link rel="stylesheet" type="text/css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+        <link rel="stylesheet" type="text/css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
+        <!-- FontAwesome CDN link -->
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    </head>
+    <body>
+        <main>
+            <!-- Header -->
+            <header class="container-fluid" id="header">
+                <!-- Hamburger icon for mobile -->
+                <div class="mobile-menu-toggle" id="mobile-menu-toggle">
+                    <div class="hamburger-icon"></div>
+                </div>
+
+                <div class="header-logo">
+                    <a href="/home"><img src="/assets/images/weInternLogo.png" alt="weinterns logo"></a>
+                </div>
+                <nav>
+                    <div class="nav-links">
+                        <a href="#">Home</a>
+                        <a href="#">Internships</a>
+                        <a href="#">Courses</a>
+                    </div>
+                    <div class="nav-buttons">
+                        <a><button type="button" class="login-btn"
+                                data-mdb-toggle="modal"
+                                data-mdb-target="#loginModal">
+                                Login
+                            </button>
+                        </button></a>
+                    <a href="/student/signup"><button type="button"
+                            class="button-primary">
+                            Student Signup
+                        </button></a>
+                    <a href="/institute/signup"><button type="button"
+                            class="button-primary">
+                            Institute Signup
+                        </button></a>
+                </div>
+            </nav>
+            </header>
+
+            <!-- Background overlay -->
+            <div class="overlay" id="overlay"></div>
+
+            <!-- Mobile menu -->
+            <nav class="nav-bar">
+                <div class="mobile-menu" id="mobile-menu">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Internships</a></li>
+                    <li><a href="#">Courses</a></li>
+                    <hr>
+                    <li><a href="/student/signup">Register - as a Student</a></li>
+                    <li><a href="/institute/signup">Register - as a
+                            Institute</a></li>
+                    <li><a href="#" data-mdb-toggle="modal"
+                            data-mdb-target="#loginModal">Login</a></li>
+                </div>
+            </nav>
+
+            <!-- Modal -->
+            <div class="modal fade" id="loginModal" tabindex="-1"
+                aria-labelledby="loginModalLabel" aria-hidden="true">
+                <div class="modal-dialog d-flex justify-content-center">
+                    <div class="modal-content w-75">
+                        <div class="modal-header">
+                            <ul class="nav nav-tabs mb-4" id="authTabs"
+                                role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="studentTab"
+                                        data-mdb-toggle="tab"
+                                        data-mdb-target="#studentContent"
+                                        type="button" role="tab"
+                                        aria-controls="studentContent"
+                                        aria-selected="true">
+                                        Student
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="instituteTab"
+                                        data-mdb-toggle="tab"
+                                        data-mdb-target="#instituteForm"
+                                        type="button" role="tab"
+                                        aria-controls="instituteForm"
+                                        aria-selected="false">
+                                        Institute
+                                    </button>
+                                </li>
+                            </ul>
+                            <button type="button" data-mdb-button-init
+                                data-mdb-ripple-init class="btn-close"
+                                data-mdb-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="separator-animated animated-true"></div>
+                        <div class="modal-body p-4">
+                            <!-- Tab Content -->
+                            <div class="tab-content" id="authTabsContent">
+                                <!-- Student Form -->
+                                <div class="tab-pane fade show active"
+                                    id="studentContent" role="tabpanel"
+                                    aria-labelledby="studentTab">
+                                    <form method="POST" action="/student/login"
+                                        id="studentForm" class="active-form">
+                                        <!-- Email input -->
+                                        <div data-mdb-input-init
+                                            class="form-outline mb-4">
+                                            <input type="email" id="studentEmail"
+                                                name="email" class="form-control" />
+                                            <label for="studentEmail"
+                                                class="form-label">Email
+                                                Address</label>
+                                        </div>
+
+                                        <!-- Password input -->
+                                        <div data-mdb-input-init
+                                            class="form-outline mb-4">
+                                            <input type="password"
+                                                id="studentPassword"
+                                                name="password"
+                                                class="form-control" />
+                                            <label for="studentPassword"
+                                                class="form-label">Password</label>
+                                        </div>
+
+                                        <!-- Submit button -->
+                                        <button type="submit" data-mdb-button-init
+                                            data-mdb-ripple-init
+                                            class="button-primary btn-block">Login</button>
+
+                                        <div
+                                            class="pt--10 modal-bottom">
+                                            New To WeInterns ? Register (<a
+                                                href="/student/signup">Student</a> /
+                                            <a
+                                                href="/institute/signup">Institute)</a>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- Sign Up Form -->
+                                <div class="tab-pane fade" id="instituteForm"
+                                    role="tabpanel" aria-labelledby="instituteTab">
+                                    <form method="POST" action="/institute/login"
+                                        id="instituteForm" class="hidden-form">
+
+                                        <!-- Email input -->
+                                        <div data-mdb-input-init
+                                            class="form-outline mb-4">
+                                            <input type="email" id="instituteEmail"
+                                                name="email" class="form-control" />
+                                            <label for="instituteEmail"
+                                                class="form-label">Email
+                                                Address</label>
+                                        </div>
+
+                                        <!-- Password input -->
+                                        <div data-mdb-input-init
+                                            class="form-outline mb-4">
+                                            <input type="password"
+                                                id="institutePassword"
+                                                name="password"
+                                                class="form-control" />
+                                            <label for="institutePassword"
+                                                class="form-label">Password</label>
+                                        </div>
+
+                                        <!-- Submit button -->
+                                        <button type="submit" data-mdb-button-init
+                                            data-mdb-ripple-init
+                                            class="button-primary btn-block">Login</button>
+
+                                        <div
+                                            class="pt--10 modal-bottom">
+                                            New To WeInterns? Register(<a
+                                                href="/student/signup">Student</a> /
+                                            <a
+                                                href="/institute/signup">Institute)</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="errorMessage">
+                <!-- Display success message if it exists -->
+                <% if (messages && messages.success) { %>
+                <div class="alert alert-success"><%= messages.success %></div>
+                <% } %>
+
+                <!-- Display error message if it exists -->
+                <% if (messages && messages.error) { %>
+                <div class="alert alert-danger"><%= messages.error %></div>
+                <% } %>
+            </div>
+            <!-- Hero Section -->
+            <div class="hero">
+                <div class="container main-heading">
+                    <h2>Find Your Dream Internship & Course</h2>
+                    <div class="hero-div separator-animated animated-true"></div>
+
+                    <p>Explore opportunities to kickstart your career.</p>
+                </div>
+            </div>
+
+            <!-- Featured Section -->
+            <section class="featured">
+                <div class="container">
+                    <!-- Internship Slider -->
+                    <div class="internships-slider text-center">
+                        <h3 class="sub-heading pb--30">Top Internships</h3>
+                        <h6>One step towards your career.</h6>
+                        <div class="slider " id="internships-slider">
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="separator-animated animated-true"></div>
+
+            <section class="featured course-featured">
+                <div class="container">
+                    <!-- Courses Slider -->
+                    <div class="courses-slider text-center">
+                        <h3 class="text-center sub-heading pb--30">Popular
+                            Certification Courses</h3>
+                        <h6>Get certificates to build your CV</h6>
+                        <div class="slider " id="courses-slider">
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slider Section -->
+            <section class="featured-2">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-6 col-sm-6">
+                            <h5>Empower your career with WeInterns Today</h5>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <a href="/student/signup"><button type="button"
+                                class="button-primary">
+                                Register Today
+                            </button></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="container">
+                    <div class="row">
+                        <!-- Quick Links -->
+                        <div class="col-md-4 col-sm-6">
+                            <h5>Quick Links</h5>
+                            <ul class="footer-links">
+                                <li><a href="/about-us">About Us</a></li>
+                                <li><a href="/contact-us">Contact Us</a></li>
+                                <li><a href="/privacy-policy">Privacy Policy</a></li>
+                                <li><a href="/terms">Terms & Conditions</a></li>
+                            </ul>
+                        </div>
+            
+                        <!-- Categories -->
+                        <div class="col-md-4 col-sm-6">
+                            <h5>Categories</h5>
+                            <ul class="footer-links">
+                                <li><a href="/internships">Internships</a></li>
+                                <li><a href="/courses">Courses</a></li>
+                                <li><a href="/career-guides">Career Guides</a></li>
+                            </ul>
+                        </div>
+            
+                        <!-- Contact Info -->
+                        <div class="col-md-4 col-sm-6">
+                            <h5>Contact</h5>
+                            <p><i class="fas fa-envelope px-2"></i> support@weinterns.com</p>
+                            <p><i class="fas fa-phone px-2"></i> +91 88300 42704</p>
+                            <p><i class="fas fa-map-marker px-2"></i>Nagpur, India</p>
+                        </div>
+                    </div>
+            
+                    <!-- Social Media & Copyright -->
+                    <div class="footer-bottom">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <p>&copy; 2025 WeInterns. All Rights Reserved.</p>
+                            </div>
+                            <div class="col-md-6 col-sm-6 footer-end">
+                                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                                <a href="https://whatsapp.com/channel/0029Vb20IKq0QeaiTRGefP2u" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                                <a href="https://www.linkedin.com/company/weinternx/" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="https://www.instagram.com/weinternx/" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            
+        </main>
+        <!-- MDBootstrap JavaScript -->
+        <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js"></script>
+
+        <!-- jQuery (necessary for slick) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- Slick JS -->
+        <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+        <script type="text/javascript" src="/assets/js/main.js"></script>
+
+    </body>
+</html>
