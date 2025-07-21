@@ -1,5 +1,6 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); 
+const MongoStore = require('connect-mongo');
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -21,18 +22,15 @@ app.use(flash());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Session configuration
-app.use(
-  session({
-      secret: process.env.SESSION_SECRET, // Replace with your secret key
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-          maxAge: 900000, // 15 minutes in milliseconds
-          httpOnly: true, // Prevent client-side scripts from accessing cookies
-          secure: false,  // Set to true if using HTTPS
-      },
-  })
-);
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI,
+  }),
+}));
 
 //Middleware to Pass Session Data Globally
 
@@ -53,12 +51,17 @@ app.use((req, res, next) => {
 
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, { 
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.log(err));
+.then(() => {
+  console.log('Connected to MongoDB');
+})
+.catch(err => {
+  console.error('MongoDB connection failed:', err);
+  process.exit(1); // Exit app if DB fails to connect
+});
 
 // Use the student routes
 app.use('/', commonRoutes);
