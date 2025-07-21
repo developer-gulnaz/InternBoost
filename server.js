@@ -56,10 +56,10 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true
 })
 .then(() => {
-  console.log('Connected to MongoDB');
+  console.log('✅ Connected to MongoDB');
 })
 .catch(err => {
-  console.error('MongoDB connection failed:', err);
+  console.error('❌ MongoDB connection failed:', err);
   process.exit(1); // Exit app if DB fails to connect
 });
 
@@ -108,6 +108,8 @@ app.use((req, res) => {
 
 
 // Start the server
-app.listen(3000, () => {
-  console.log('Server running on http://localhost:3000');
+// With this:
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on port ${PORT}`);
 });
