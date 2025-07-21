@@ -18,11 +18,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(flash());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Session configuration
-
+// ✅ Session must come BEFORE flash()
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -32,8 +30,10 @@ app.use(session({
   }),
 }));
 
-//Middleware to Pass Session Data Globally
+// ✅ Flash middleware AFTER session
+app.use(flash());
 
+// Middleware to pass session data globally
 app.use((req, res, next) => {
   res.locals.instituteName = req.session?.instituteName || null;
   res.locals.studentName = req.session?.studentName || null;
@@ -41,14 +41,9 @@ app.use((req, res, next) => {
   res.locals.appliedInternships = req.session?.appliedInternships || null;
   res.locals.appliedCourses = req.session?.appliedCourses || null;
   res.locals.message = req.session?.message || null;
+  res.locals.messages = req.flash(); // Move this here for clarity
   next();
 });
-
-app.use((req, res, next) => {
-  res.locals.messages = req.flash();
-  next();
-});
-
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
@@ -60,52 +55,50 @@ mongoose.connect(process.env.MONGO_URI, {
 })
 .catch(err => {
   console.error('❌ MongoDB connection failed:', err);
-  process.exit(1); // Exit app if DB fails to connect
+  process.exit(1);
 });
 
-// Use the student routes
+// Routes
 app.use('/', commonRoutes);
 app.use('/student', studentRoutes);
 app.use('/institute', instituteRoutes);
 
-// app.use((req, res, next) => {
-//   console.log(`${req.method} request to ${req.url}`);
-//   next();
-// });
-
+// Session expiration middleware
 app.use((req, res, next) => {
   if (req.session) {
-      const now = Date.now();
-      const maxInactive = 15 * 60 * 1000; // 15 minutes in milliseconds
+    const now = Date.now();
+    const maxInactive = 15 * 60 * 1000;
 
-      // Initialize lastActivity if not set
-      if (!req.session.lastActivity) {
-          req.session.lastActivity = now;
-      }
+    if (!req.session.lastActivity) {
+      req.session.lastActivity = now;
+    }
 
-      // Check if session has expired
-      if (now - req.session.lastActivity > maxInactive) {
-          req.session.destroy((err) => {
-              if (err) {
-                  console.error(err);
-              }
-              return res.redirect('/home'); // Redirect to login page
-          });
-      } else {
-          // Update lastActivity on every request
-          req.session.lastActivity = now;
-      }
+    if (now - req.session.lastActivity > maxInactive) {
+      req.session.destroy((err) => {
+        if (err) {
+          console.error(err);
+          return next(); // fallback to next middleware if destroy fails
+        }
+        if (!res.headersSent) {
+          return res.redirect('/home');
+        }
+      });
+    } else {
+      req.session.lastActivity = now;
+      next();
+    }
+  } else {
+    next();
   }
-  next();
 });
 
-
-// Catch-all for undefined routes
+// Catch-all route
 app.use((req, res) => {
-  req.flash('error', 'The page you are looking for does not exist.');
-  res.redirect('/');
+  if (!res.headersSent) {
+    req.flash('error', 'The page you are looking for does not exist.');
+    return res.redirect('/');
+  }
 });
-
 
 // Start the server
 const PORT = process.env.PORT || 3000;
