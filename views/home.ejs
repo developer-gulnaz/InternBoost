@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>WeInterns || Home</title>
+        <title>InternBoost || Home</title>
 
         <link href="/assets/css/style.css" rel="stylesheet">
         <!-- MDBootstrap CSS -->
@@ -11,7 +11,6 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css"
             rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
 
         <!-- Slick CSS -->
         <link rel="stylesheet" type="text/css"
@@ -33,7 +32,7 @@
                 </div>
 
                 <div class="header-logo">
-                    <a href="/home"><img src="/assets/images/weInternLogo.png" alt="weinterns logo"></a>
+                    <a href="/home"><img src="/assets/images/internboost-logo.png" alt="internboost logo"></a>
                 </div>
                 <nav>
                     <div class="nav-links">
@@ -150,7 +149,7 @@
 
                                         <div
                                             class="pt--10 modal-bottom">
-                                            New To WeInterns ? Register (<a
+                                            New To InternBoost ? Register (<a
                                                 href="/student/signup">Student</a> /
                                             <a
                                                 href="/institute/signup">Institute)</a>
@@ -192,7 +191,7 @@
 
                                         <div
                                             class="pt--10 modal-bottom">
-                                            New To WeInterns? Register(<a
+                                            New To InternBoost? Register(<a
                                                 href="/student/signup">Student</a> /
                                             <a
                                                 href="/institute/signup">Institute)</a>
@@ -234,7 +233,7 @@
                         <h3 class="sub-heading pb--30">Top Internships</h3>
                         <h6>One step towards your career.</h6>
                         <div class="slider " id="internships-slider">
-
+                            
                         </div>
                     </div>
                 </div>
@@ -256,12 +255,56 @@
                 </div>
             </section>
 
+            <!-- Featured Section -->
+            <section class="featured">
+                <div class="container">
+                    <!-- Internship Slider -->
+                    <div class="internships-slider text-center">
+                        <h3 class="sub-heading pb--30">Available Internships</h3>
+                        <h6>One step towards your career.</h6>
+                        <% if (internships && internships.length > 0) { %>
+                            <div class="row">
+                                <% internships.forEach(internship => { %>
+                                    <div class="col-md-4">
+                                        <div class="card mb-4 shadow-sm">
+                                            <!-- Internship Image -->
+                                            <img 
+                                            src="/uploads/internshipImages/<%= internship.internshipImage %>" 
+                                            alt="<%= internship.internshipName %>" 
+                                            class="card-img-top" 
+                                            style="height: 200px; object-fit: cover;"
+                                        >
+                                        
+                                            <!-- Card Body -->
+                                            <div class="card-body">
+                                                <h5 class="card-title"><%= internship.internshipName %></h5>
+                                                <p class="card-text"><strong>Description:</strong> <%= internship.internshipDescription %></p>
+                                                <p class="card-text"><strong>Location:</strong> <%= internship.internshipLocation %></p>
+                                                <p class="card-text"><strong>Duration:</strong> <%= internship.internshipDuration %></p>
+                                                <p class="card-text"><strong>Stipend:</strong> <%= internship.internshipStipend %></p>
+                                                <a
+                                                    href="/student/apply-internship/<%= internship.internshipName %>" 
+                                                    class="btn btn-primary btn-block">
+                                                    Apply Now
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% }) %>
+                            </div>
+                        <% } else { %>
+                            <p>No internships available. Start by adding some!</p>
+                        <% } %>
+                    </div>
+                </div>
+            </section>
+        
             <!-- Slider Section -->
             <section class="featured-2">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8 col-md-6 col-sm-6">
-                            <h5>Empower your career with WeInterns Today</h5>
+                            <h5>Empower your career with InternBoost Today</h5>
                         </div>
                         <div class="col-lg-4 col-md-6">
                             <a href="/student/signup"><button type="button"
@@ -301,8 +344,8 @@
                         <!-- Contact Info -->
                         <div class="col-md-4 col-sm-6">
                             <h5>Contact</h5>
-                            <p><i class="fas fa-envelope px-2"></i> support@weinterns.com</p>
-                            <p><i class="fas fa-phone px-2"></i> +91 88300 42704</p>
+                            <p><i class="fas fa-envelope px-2"></i> support@internboost.com</p>
+                            <p><i class="fas fa-phone px-2"></i> +91 12345 678920</p>
                             <p><i class="fas fa-map-marker px-2"></i>Nagpur, India</p>
                         </div>
                     </div>
@@ -311,13 +354,13 @@
                     <div class="footer-bottom">
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
-                                <p>&copy; 2025 WeInterns. All Rights Reserved.</p>
+                                <p>&copy; 2025 InternBoost. All Rights Reserved.</p>
                             </div>
                             <div class="col-md-6 col-sm-6 footer-end">
                                 <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                                <a href="https://whatsapp.com/channel/0029Vb20IKq0QeaiTRGefP2u" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
-                                <a href="https://www.linkedin.com/company/weinternx/" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="https://www.instagram.com/weinternx/" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+                                <a href="#" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                                <a href="#" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
                                 
                             </div>
                         </div>

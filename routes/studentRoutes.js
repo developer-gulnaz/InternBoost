@@ -22,17 +22,8 @@ router.get('/login', (req, res) => {
 router.post('/login', studentController.login);
 
 // Route to render the dashboard (GET)
-router.get('/dashboard', studentController.isAuthenticated, (req, res) => {
-    // Pass a student object to the dashboard view
-    // console.log('Session Data in Dashboard Route:', req.session);
+router.get('/dashboard', studentController.isAuthenticated, studentController.dashboard);
 
-    res.render('student/dashboard', {
-        student: {
-            firstName: req.session.studentName,
-            email: req.session.studentEmail
-        }
-    });
-});
 
 // studentController.js
 

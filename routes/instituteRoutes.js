@@ -18,11 +18,18 @@ router.get('/login', (req, res) => {
 // Route to handle the institute login form submission
 router.post('/login', instituteController.login);
 
-// Route to render the institute dashboard
-router.get('/dashboard', instituteController.dashboard);
+router.get('/dashboard', instituteController.isAuthenticated, instituteController.dashboard);
 
 // Route to handle logout
 router.get('/logout', instituteController.logout);
+
+//Route to render add internship page
+router.get('/addInternship', (req, res) => {
+    res.render('institute/addInternship');
+});
+
+//Route to handle add internship form submission
+router.post('/addInternship', instituteController.addInternship);
 
 
 module.exports = router;

@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const Student = require('../models/studentModel');
 const AppliedInternship = require('../models/appliedInternshipModel');
 const AppliedCourse = require('../models/appliedCourseModal');
+const Internship = require('../models/internshipModel');
 const mongoose = require('mongoose');
 const multer = require('multer');
 const path = require('path');
@@ -102,27 +103,39 @@ exports.login = async (req, res) => {
 
 // Student Dashboard
 exports.dashboard = async (req, res) => {
-    // Check if the student is logged in by verifying the session
     if (!req.session.studentId) {
         req.flash('error', 'Please log in first');
         return res.redirect('/');
     }
 
     try {
-        // Fetch student details from the Student model
-        const student = await Student.findById(req.session.studentId);
+        const studentId = req.session.studentId; // Assuming student is logged in
+
+        // Fetch the student data
+        const student = await Student.findById(studentId);
         if (!student) {
-            req.flash('error', 'No student found');
+            req.flash('error', 'Student not found');
             return res.redirect('/');
         }
 
-        // Fetch the applied internships and courses for the logged-in student
-        const appliedInternships = await AppliedInternship.find({ studentId: req.session.studentId });
+        // Fetch applied internships for the student and populate the internship and institute details
+        const appliedInternships = await AppliedInternship.find({ studentId: studentId })
+            .populate('internshipId') // Populate internship details
+            .populate({
+                path: 'internshipId',
+                populate: {
+                    path: 'instituteId', // Populate institute details for the internship
+                    model: 'Institute'
+                }
+            });
+        const internships = await Internship.find(); // Fetch all internships
         const appliedCourses = await AppliedCourse.find({ studentId: req.session.studentId });
+        console.log(appliedInternships); // Add this in your try block to see the fetched data
 
-        // Render the dashboard with student data and applied internships
+        // Render the dashboard and pass internships data along with other variables
         res.render('student/dashboard', {
             student,
+            internships,
             appliedInternships,
             appliedCourses,
             successMessage: req.flash('success'),
@@ -134,6 +147,7 @@ exports.dashboard = async (req, res) => {
         res.redirect('/');
     }
 };
+
 
 // Middleware to check if the student is logged in
 exports.isAuthenticated = (req, res, next) => {
@@ -172,45 +186,80 @@ exports.applyInternshipForm = async (req, res) => {
 };
 
 // Submit Internship Application
-exports.applyInternship = [
-    upload.single('resume'), // Middleware to handle file upload
-    async (req, res) => {
-        const internshipTitle = req.params.title;
-        const { firstName, lastName, email, mobile } = req.body;
-        const resume = req.file ? req.file.filename : null;
+// exports.applyInternship = [
+//     upload.single('resume'), // Middleware to handle file upload
+//     async (req, res) => {
+//         const internshipTitle = req.params.title;
+//         const { firstName, lastName, email, mobile } = req.body;
+//         const resume = req.file ? req.file.filename : null;
 
-        if (!firstName || !lastName || !email || !mobile || !resume) {
-            req.flash('error', 'All fields are required');
-            return res.redirect('/student/apply-internship/' + internshipTitle);
+//         if (!firstName || !lastName || !email || !mobile || !resume) {
+//             req.flash('error', 'All fields are required');
+//             return res.redirect('/student/apply-internship/' + internshipTitle);
+//         }
+
+//         try {
+//             const studentId = req.session.studentId || null;
+
+//             // Save internship application to the database
+//             await AppliedInternship.create({
+//                 studentId,
+//                 internshipTitle,
+//                 firstName,
+//                 lastName,
+//                 email,
+//                 mobile,
+//                 resume,
+//             });
+
+//             req.flash('success', 'Internship application submitted successfully!');
+//             if (studentId) {
+//                 return res.redirect('/student/dashboard');
+//             } else {
+//                 return res.redirect('/');
+//             }
+//         } catch (error) {
+//             console.error('Error saving internship application:', error);
+//             req.flash('error', 'There was an error submitting your application. Please try again.');
+//             return res.redirect('/student/apply-internship/' + internshipTitle);
+//         }
+//     }
+// ];
+
+// Apply for Internship route
+exports.applyInternship = [upload.single('resume'), async (req, res) => {
+    try {
+        const studentId = req.session.studentId; // Ensure student is logged in
+        const internshipTitle = req.params.title; // Get internship title from the URL
+
+        // Fetch internship based on the title
+        const internship = await Internship.findOne({ internshipName: internshipTitle });
+
+        if (!internship) {
+            req.flash('error', 'Internship not found');
+            return res.redirect('/student/dashboard');
         }
 
-        try {
-            const studentId = req.session.studentId || null;
+        // Create a new applied internship entry
+        const appliedInternship = new AppliedInternship({
+            studentId: studentId,
+            internshipId: internship._id,
+            resume: req.file.path, // Store the path of the uploaded resume
+            appliedAt: new Date(),
+            progress: 'Applied' // Initial progress
+        });
 
-            // Save internship application to the database
-            await AppliedInternship.create({
-                studentId,
-                internshipTitle,
-                firstName,
-                lastName,
-                email,
-                mobile,
-                resume,
-            });
+        // Save the applied internship to the database
+        await appliedInternship.save();
 
-            req.flash('success', 'Internship application submitted successfully!');
-            if (studentId) {
-                return res.redirect('/student/dashboard');
-            } else {
-                return res.redirect('/');
-            }
-        } catch (error) {
-            console.error('Error saving internship application:', error);
-            req.flash('error', 'There was an error submitting your application. Please try again.');
-            return res.redirect('/student/apply-internship/' + internshipTitle);
-        }
+        req.flash('success', 'You have successfully applied for the internship!');
+        res.redirect('/student/dashboard');
+    } catch (error) {
+        console.error('Error applying for internship:', error);
+        req.flash('error', 'Something went wrong while applying for the internship');
+        res.redirect('/student/dashboard');
     }
-];
+}];
 
 // Display Course Application Form
 exports.applyCourseForm = async (req, res) => {

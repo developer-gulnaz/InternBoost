@@ -34,8 +34,10 @@
                 </div>
 
                 <div class="header-logo">
-                    <a href="/home"><img src="/assets/images/weInternLogo.png" alt="weinterns logo"></a>
-                </div>                <nav>
+                    <a href="/home"><img src="/assets/images/internboost-logo.png"
+                            alt="internboost logo"></a>
+                </div>
+                <nav>
                     <div class="nav-links">
                         <a href="#">Institute Dashboard</a>
                     </div>
@@ -45,6 +47,9 @@
                         </li>
                         <li>
                             <a href="#">Hire Freshers </a>
+                        </li>
+                        <li>
+                            <a href="addInternship">Add Internship </a>
                         </li>
                         <li><a
                                 href="logout?from=dashboard">Logout</a></li>
@@ -116,6 +121,53 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Featured Section -->
+                <section class="featured">
+                    <div class="container">
+                        <!-- Internship Slider -->
+                        <div class="internships-slider text-center">
+                            <h3 class="sub-heading pb--30">Available Internships</h3>
+                            <h6>One step towards your career.</h6>
+                            <h2>Your Internships</h2>
+                
+                            <% if (internships && internships.length > 0) { %>
+                                <div class="row">
+                                    <% internships.forEach(internship => { %>
+                                        <div class="col-md-4">
+                                            <div class="card mb-4 shadow-sm">
+                                                <!-- Internship Image -->
+                                                <img 
+                                                src="/uploads/internshipImages/<%= internship.internshipImage %>" 
+                                                alt="<%= internship.internshipName %>" 
+                                                class="card-img-top" 
+                                                style="height: 200px; object-fit: cover;"
+                                            >
+                                            
+                                                <!-- Card Body -->
+                                                <div class="card-body">
+                                                    <h5 class="card-title"><%= internship.internshipName %></h5>
+                                                    <p class="card-text"><strong>Description:</strong> <%= internship.internshipDescription %></p>
+                                                    <p class="card-text"><strong>Location:</strong> <%= internship.internshipLocation %></p>
+                                                    <p class="card-text"><strong>Duration:</strong> <%= internship.internshipDuration %></p>
+                                                    <p class="card-text"><strong>Stipend:</strong> <%= internship.internshipStipend %></p>
+                                                    <a
+                                                        href="/student/apply-internship/<%= internship.internshipName %>" 
+                                                        class="btn btn-primary btn-block">
+                                                        Apply Now
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% }) %>
+                                </div>
+                            <% } else { %>
+                                <p>No internships available. Start by adding some!</p>
+                            <% } %>
+                        </div>
+                    </div>
+                </section>
+                
             </div>
 
         </main>
@@ -126,24 +178,24 @@
                 <div class="footer-bottom">
                     <div class="row">
                         <div class="col-md-6 col-sm-6">
-                            <p>&copy; 2025 WeInterns. All Rights
+                            <p>&copy; 2025 InternBoost. All Rights
                                 Reserved.</p>
                         </div>
                         <div class="col-md-6 col-sm-6 footer-end">
                             <a href="#" class="social-icon"><i
                                     class="fab fa-facebook-f"></i></a>
                             <a
-                                href="https://whatsapp.com/channel/0029Vb20IKq0QeaiTRGefP2u"
+                                href="#"
                                 target="_blank"
                                 class="social-icon"><i
                                     class="fab fa-whatsapp"></i></a>
                             <a
-                                href="https://www.linkedin.com/company/weinternx/"
+                                href="#"
                                 target="_blank"
                                 class="social-icon"><i
                                     class="fab fa-linkedin-in"></i></a>
                             <a
-                                href="https://www.instagram.com/weinternx/"
+                                href="#"
                                 target="_blank"
                                 class="social-icon"><i
                                     class="fab fa-instagram"></i></a>

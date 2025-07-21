@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Student Signup</title>
+        <title>Add Internship</title>
 
         <link href="/assets/css/style.css" rel="stylesheet">
         <!-- MDBootstrap CSS -->
@@ -36,10 +36,26 @@
                 </div>
 
                 <div class="header-logo">
-                    <a href="/home"><img src="/assets/images/internboost-logo.png" alt="internboost logo"></a>
-                </div>                <nav>
+                    <a href="/home"><img src="/assets/images/internboost-logo.png"
+                            alt="internboost logo"></a>
+                </div>
+                <nav>
                     <div class="nav-links">
-                        <li><a href="#">Institute Registration</a></li>
+                        <a href="#">Institute Dashboard</a>
+                    </div>
+                    <div class="nav-buttons">
+                        <li>
+                            <a href="#">Hire Interns </a>
+                        </li>
+                        <li>
+                            <a href="#">Hire Freshers </a>
+                        </li>
+
+                        <li>
+                            <a href="/addInternship">Add Internship </a>
+                        </li>
+                        <li><a
+                                href="logout?from=dashboard">Logout</a></li>
                     </div>
                 </nav>
             </header>
@@ -67,62 +83,89 @@
             </div>
 
             <div class="container pt-5">
+                <h4 class="text-center mb-5">Add Internship</h4>
+
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                        <div class="py-10">
-                            <h2 class="text-center">Hire Interns and Freshers</h2>
-                            <img class="img-fluid"
-                                src="/assets/images/hire.png">
-                        </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                        <!-- Start Sign up Area  -->
-                        <div class="form-container p-5 form-institute">
-                            <h6 class="text-center mb-4">Sign Up hire
-                                talents</h6>
-                            <form action="signup" method="POST">
-
-                                <!-- First Name -->
+                        <!-- Start add Internship Area  -->
+                        <div class="form-container p-5 form-institute w-75">
+                            <form action="addInternship" method="POST"
+                                enctype="multipart/form-data"
+                                id="addInternship">
+                                <!-- Internship Name -->
                                 <div data-mdb-input-init
                                     class="form-outline mb-4">
-                                    <input type="text" id="name"
-                                        name="name" class="form-control" />
-                                    <label for="name"
-                                        class="form-label">First Name</label>
+                                    <input type="text" id="internshipName"
+                                        name="internshipName"
+                                        class="form-control" required>
+                                    <label for="internshipName"
+                                        class="form-label">Internship
+                                        Name</label>
                                 </div>
 
-                                <!-- Email -->
+                                <!-- Internship Description -->
                                 <div data-mdb-input-init
                                     class="form-outline mb-4">
-                                    <input type="email" id="email"
-                                        name="email" class="form-control" />
-                                    <label for="email"
-                                        class="form-label">Email
-                                        Address</label>
+                                    <input type="text"
+                                        id="internshipDescription"
+                                        name="internshipDescription"
+                                        class="form-control" required>
+                                    <label for="internshipDescription"
+                                        class="form-label">Description</label>
                                 </div>
-                                <!-- Mobile -->
+
+                                <!-- Location -->
                                 <div data-mdb-input-init
                                     class="form-outline mb-4">
-                                    <input type="number" id="mobile"
-                                        name="mobile" class="form-control" />
-                                    <label for="mobile"
-                                        class="form-label">Mobile Number</label>
+                                    <input type="text" id="internshipLocation"
+                                        name="internshipLocation"
+                                        class="form-control" required>
+                                    <label for="internshipLocation"
+                                        class="form-label">Location</label>
                                 </div>
-                                <!-- Password -->
+
+                                <!-- Duration -->
                                 <div data-mdb-input-init
                                     class="form-outline mb-4">
-                                    <input type="password" id="password"
-                                        name="password" class="form-control" />
-                                    <label for="password"
-                                        class="form-label">Password</label>
+                                    <input type="text" id="internshipDuration"
+                                        name="internshipDuration"
+                                        class="form-control" required>
+                                    <label for="internshipDuration"
+                                        class="form-label">Duration</label>
                                 </div>
+
+                                <!-- Stipend -->
+                                <div data-mdb-input-init
+                                    class="form-outline mb-4">
+                                    <input type="text" id="internshipStipend"
+                                        name="internshipStipend"
+                                        class="form-control" required>
+                                    <label for="internshipStipend"
+                                        class="form-label">Stipend</label>
+                                </div>
+
+                                <!-- Internship Image -->
+                                <div data-mdb-input-init
+                                    class="form-outline mb-4">
+                                    <label for="internshipImg"
+                                        class="form-label">Internship
+                                        Image</label>
+                                    <input type="file" name="internshipImg"
+                                        id="internshipImg" accept="image/*"
+                                        required>
+                                </div>
+
                                 <!-- Submit Button -->
                                 <button type="submit"
-                                    class="btn btn-primary w-100">Sign
-                                    Up</button>
+                                    class="btn btn-primary w-100"
+                                    id="addInternship">Add Internship</button>
                             </form>
                         </div>
-                        <!-- End Sign up Area  -->
+
+                        <!-- End add Internship Area  -->
                     </div>
                 </div>
             </div>

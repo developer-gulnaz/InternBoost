@@ -18,7 +18,15 @@ const instituteSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    internships: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Internship'  // Refers to Internship model
+    }],
+    courses: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course'  // Refers to Course model
+    }]
+}, { timestamps: true });
 
-});
 
 module.exports = mongoose.model('Institute', instituteSchema);

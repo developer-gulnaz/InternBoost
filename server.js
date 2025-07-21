@@ -7,7 +7,7 @@ const studentRoutes = require('./routes/studentRoutes');
 const instituteRoutes = require('./routes/instituteRoutes');
 const commonRoutes = require('./routes/commonRoutes');
 const flash = require('connect-flash');
-
+require('dotenv').config();
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -18,11 +18,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Session configuration
 app.use(
   session({
-      secret: 'your_secret_key', // Replace with your secret key
+      secret: process.env.SESSION_SECRET, // Replace with your secret key
       resave: false,
       saveUninitialized: false,
       cookie: {
@@ -50,8 +51,12 @@ app.use((req, res, next) => {
   next();
 });
 
+
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/we-interns', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URI, { 
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log(err));
 
